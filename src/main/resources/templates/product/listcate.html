@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  >
+<head>
+	<th:block th:replace="layout :: head"></th:block>
+</head>
+  <body class="goto-here">
+  <th:block th:replace="layout :: header"></th:block>
+    <section class="ftco-section bg-light">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-md-8 col-lg-10 order-md-last">
+    				<div  class="row">
+		    			<div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex" th:each="product : ${Products}">
+		    				<div class="product d-flex flex-column">
+		    					<a th:href="@{/products/view/{id}(id=${product.id})}" class="img-prod"><img class="img-fluid" th:src="@{/images/} + ${product.image}" alt="Colorlib Template">
+		    						<div class="overlay"></div>
+		    					</a>
+		    					<div class="text py-3 pb-4 px-3">
+		    						<div class="d-flex">
+		    							<div class="cat">
+				    						<span th:text="${product.category.name}"></span>
+				    					</div>
+			    					</div>
+		    						<h3 th:text="${product.name}"><a th:href="@{/products/view/{id}(id=${product.id})}"></a></h3>
+		    						<div class="pricing">
+			    						<p class="price"><span th:text="${product.costPrice}"></span></p>
+			    					</div>
+			    					<p class="bottom-area d-flex px-3">
+		    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+		    							<a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
+		    						</p>
+		    					</div>
+		    				</div>
+		    			</div>
+		    		</div>
+					<div class="row mt-5">
+						<div class="col text-center">
+							<div class="block-27">
+								<ul>
+									<li th:if="${currentPage > 1}">
+										<a th:href="@{/products/view/category/{id}(id=${category.id}, page=${currentPage - 1})}">&lt;</a>
+									</li>
+									<li th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+										th:class="${pageNum == currentPage} ? 'active'">
+										<a th:href="@{/products/view/category/{id}(id=${category.id}, page=${pageNum})}" th:text="${pageNum}"></a>
+									</li>
+									<li th:if="${currentPage < totalPages}">
+										<a th:href="@{/products/view/category/{id}(id=${category.id}, page=${currentPage + 1})}">&gt;</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+		    	<div class="col-md-4 col-lg-2">
+		    		<div class="sidebar">
+							<div class="sidebar-box-2">
+								<h2 class="heading">Categories</h2>
+								<ul>
+									<li th:each="category : ${categories}" ><a th:href="@{/products/view/category/{id}(id=${category.id})}" th:text="${category.name}"></a></li>
+								</ul>
+    						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</section>
+  <th:block th:replace="layout :: footer"></th:block>
+  </body>
+</html>
